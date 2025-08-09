@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { saveJSON, loadJSON } from "@/lib/storage";
-import { Button } from "@/components/ui/button";
+import { saveJSON, loadJSON } from "./lib/storage";
+import { Button } from "./components/ui/button";
 
 type ChecklistItem = { id: string; text: string };
 
