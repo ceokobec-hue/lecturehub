@@ -1,9 +1,9 @@
+// email.ts — Resend만 사용 (nodemailer 완전 제거)
 import { Resend } from "resend";
 
 export type EmailPayload = { subject: string; html: string };
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM = process.env.FROM_EMAIL!;
 const TO = process.env.TO_EMAIL!;
 
@@ -11,6 +11,19 @@ export async function sendEmail({ subject, html }: EmailPayload) {
   if (!process.env.RESEND_API_KEY || !FROM || !TO) {
     throw new Error("Missing RESEND_API_KEY / FROM_EMAIL / TO_EMAIL env.");
   }
+
+  const result = await resend.emails.send({
+    from: FROM,
+    to: [TO],
+    subject,
+    html,
+  });
+
+  if ((result as any)?.error) {
+    throw new Error(JSON.stringify((result as any).error));
+  }
+  return result;
+}
 
   const result = await resend.emails.send({
     from: FROM,
