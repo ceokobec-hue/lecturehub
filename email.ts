@@ -1,12 +1,29 @@
 import { Resend } from "resend";
-import nodemailer from "nodemailer";
 
 export type EmailPayload = { subject: string; html: string };
 
-export async function sendEmail(payload: EmailPayload) {
-  const provider = process.env.EMAIL_PROVIDER || "resend";
-  if (provider === "nodemailer") return sendWithNodemailer(payload);
-  return sendWithResend(payload);
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const FROM = process.env.FROM_EMAIL!;
+const TO = process.env.TO_EMAIL!;
+
+export async function sendEmail({ subject, html }: EmailPayload) {
+  if (!process.env.RESEND_API_KEY || !FROM || !TO) {
+    throw new Error("Missing RESEND_API_KEY / FROM_EMAIL / TO_EMAIL env.");
+  }
+
+  const result = await resend.emails.send({
+    from: FROM,
+    to: [TO],
+    subject,
+    html,
+  });
+
+  // 간단한 에러 처리
+  if ((result as any).error) {
+    throw new Error(JSON.stringify((result as any).error));
+  }
+  return result;
 }
 
 async function sendWithResend({ subject, html }: EmailPayload) {
