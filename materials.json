@@ -1,0 +1,22 @@
+[
+  {
+    "id": "onboarding-check-01",
+    "type": "checklist",
+    "title": "수업 전 체크리스트",
+    "items": ["노트/필기구 준비","아이스브레이킹 한 줄 소개","오늘 목표 설정"]
+  },
+  {
+    "id": "personality-quiz-01",
+    "type": "quiz",
+    "title": "간단 성격유형 체크",
+    "questions": [
+      {"q":"새로운 일을 시작할 때 계획을 먼저 세운다.","options":["그렇다","보통","아니다"]},
+      {"q":"팀에서 의견 말하기가 편하다.","options":["그렇다","보통","아니다"]},
+      {"q":"갑작스런 변화에도 유연하게 대응한다.","options":["그렇다","보통","아니다"]},
+      {"q":"마감 전에 스스로 체크리스트를 점검한다.","options":["그렇다","보통","아니다"]}
+    ],
+    "scoringNote":"그렇다=2, 보통=1, 아니다=0. 6~8점 활동형, 3~5점 균형형, 0~2점 차분형"
+  },
+  {"id":"handout-essentials","type":"file","title":"필수 자료 모음(PDF)","url":"/files/essentials.pdf"}
+]
+

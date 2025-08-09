@@ -1,0 +1,16 @@
+{
+  "name": "김지백",
+  "org": "외부강사 김지백",
+  "education": "경영학 석사",
+  "highlights": ["신입사원 온보딩", "직장 커뮤니케이션", "AI 활용 교육"],
+  "awards": ["우수 강사상 (2023)"],
+  "stats": [
+    { "label": "연간 강의", "value": 120 },
+    { "label": "수강생", "value": 5000 }
+  ],
+  "social": {
+    "youtube": "https://youtube.com/@외부강사김지백",
+    "instagram": "https://instagram.com/yourhandle"
+  }
+}
+
