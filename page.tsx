@@ -1,76 +1,75 @@
-import { Metadata } from "next";
-import materials from "@/data/materials.json";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MaterialCard } from "@/components/cards/material-card";
-import { Checklist } from "@/components/materials/checklist";
-import { Quiz } from "@/components/materials/quiz";
+export default function Home() {
+  return (
+    <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <h1>Welcome to LectureHub</h1>
+      <p>이 페이지는 Vercel에서 정상적으로 배포되었는지 확인하는 테스트 페이지입니다.</p>
+    </main>
+  );
+}
+import Link from "next/link";
+import Image from "next/image";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export const metadata: Metadata = {
-  title: "강의 자료",
-  description: "체크리스트, 성향 퀴즈, 자료 다운로드",
+export const metadata = {
+  title: "김지백 EDU - 홈",
+  description: "김지백 강사의 소개, 강의 자료, 문의 안내",
 };
 
-type Item =
-  | { id: string; type: "checklist"; title: string; items: string[] }
-  | { id: string; type: "quiz"; title: string; questions: { q: string; options: string[] }[]; scoringNote: string }
-  | { id: string; type: "file"; title: string; url: string };
-
-const items = materials as Item[];
-
-export default function MaterialsPage() {
+export default function HomePage() {
   return (
     <div className="space-y-6">
-      <Tabs defaultValue="all" className="w-full">
-        <TabsList className="w-full justify-start gap-1">
-          <TabsTrigger value="all">전체</TabsTrigger>
-          <TabsTrigger value="checklist">체크리스트</TabsTrigger>
-          <TabsTrigger value="quiz">성격</TabsTrigger>
-          <TabsTrigger value="file">자료</TabsTrigger>
-        </TabsList>
+      <section className="text-center space-y-4">
+        <h1 className="text-2xl font-bold">김지백 EDU</h1>
+        <p className="text-muted-foreground">실무 중심 교육, 간결한 자료, 빠른 소통</p>
+        <div className="flex gap-3 justify-center">
+          <Button asChild>
+            <Link href="/materials">강의 자료 보러가기</Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link href="/contact">문의하기</Link>
+          </Button>
+        </div>
+      </section>
 
-        {(["all", "checklist", "quiz", "file"] as const).map((tab) => (
-          <TabsContent key={tab} value={tab} className="space-y-4">
-            {items
-              .filter((x) => tab === "all" || x.type === tab)
-              .map((x) => {
-                if (x.type === "checklist") {
-                  return (
-                    <MaterialCard key={x.id} title={x.title} type={x.type}>
-                      <Checklist id={x.id} items={x.items.map((t, idx) => ({ id: `${x.id}-${idx}`, text: t }))} />
-                    </MaterialCard>
-                  );
-                }
-                if (x.type === "quiz") {
-                  return (
-                    <MaterialCard key={x.id} title={x.title} type={x.type}>
-                      <Quiz
-                        id={x.id}
-                        questions={(x as any).questions.map((q: any, qi: number) => ({
-                          id: `${x.id}-q${qi + 1}`,
-                          text: q.q,
-                          options: q.options.map((o: string, oi: number) => ({ id: `${x.id}-q${qi + 1}-o${oi + 1}`, text: o, score: o === "그렇다" ? 2 : o === "보통" ? 1 : 0 }))
-                        }))}
-                        results={[
-                          { min: 6, max: 8, text: "활동형" },
-                          { min: 3, max: 5, text: "균형형" },
-                          { min: 0, max: 2, text: "차분형" },
-                        ]}
-                      />
-                    </MaterialCard>
-                  );
-                }
-                return (
-                  <MaterialCard key={x.id} title={x.title} type={x.type}>
-                    <Button asChild>
-                      <a href={(x as any).url} download>다운로드</a>
-                    </Button>
-                  </MaterialCard>
-                );
-              })}
-          </TabsContent>
-        ))}
-      </Tabs>
+      <section className="grid gap-4 sm:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>강사 소개</CardTitle>
+            <CardDescription>이력과 주요 강의 분야</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm">실무-현장 결합 교육과정 설계 및 진행</p>
+            <Button asChild variant="link" className="px-0">
+              <Link href="/instructor">자세히 보기 →</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>수업 자료</CardTitle>
+            <CardDescription>체크리스트, 성격유형 퀴즈, 자료 다운로드</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm">모바일 우선으로 빠르게 확인</p>
+            <Button asChild variant="link" className="px-0">
+              <Link href="/materials">바로 가기 →</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className="sm:col-span-2">
+          <CardHeader>
+            <CardTitle>강의 문의</CardTitle>
+            <CardDescription>기관 맞춤형 커리큘럼 제안</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-sm">희망 일정/인원/주제를 알려주시면 견적과 강의안 드립니다.</p>
+            <Button asChild>
+              <Link href="/contact">문의 폼 작성</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </section>
     </div>
   );
 }
